@@ -17,6 +17,7 @@ export default function Search() {
       { loading && <p>Loading ...</p> }
       {
         publications?.map(publication => {
+          console.log(publication)
           return (
             <div style={{marginBottom: 10}} key={publication.id}>
               <Publication

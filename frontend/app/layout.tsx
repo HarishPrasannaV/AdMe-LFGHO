@@ -5,6 +5,7 @@ import { LensProvider } from '@/components/lens-provider'
 import { Web3ModalProvider } from '@/components/web3modal-provider'
 import { Nav } from '@/components/nav'
 import * as React from "react"
+import { ConnectkitProvider } from '@/components/connectkit-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,14 +23,14 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <Web3ModalProvider>
+        <ConnectkitProvider>
           <LensProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <Nav />
               {children}
             </ThemeProvider>
           </LensProvider>
-        </Web3ModalProvider>
+        </ConnectkitProvider>
       </body>
     </html>
   )

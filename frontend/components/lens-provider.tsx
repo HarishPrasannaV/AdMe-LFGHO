@@ -8,7 +8,7 @@ import { LensProvider as Provider, LensConfig, production } from '@lens-protocol
 import { bindings as wagmiBindings } from '@lens-protocol/wagmi';
 
 const { publicClient, webSocketPublicClient } = configureChains(
-  [polygonMumbai, polygon],
+  [polygonMumbai],
   [publicProvider()]
 );
 
