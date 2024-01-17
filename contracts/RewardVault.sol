@@ -11,9 +11,13 @@ contract RewardVault is Ownable {
     uint256 public totalRewards;
     // Factor to convert GHO to rewards
     uint256 public conversionFactor;
-    // Threshhold amount to allow for reward withdrawal
+    // Threshold amount to allow for reward withdrawal
     uint256 public thresHold;
+    // Corresponding address for ECDSA private key of the dApp
+    address private interactionSigner =
+        0x102a287271836796398747793Ef148f0Bf44b9b4;
 
+    // Structure of the advertisement that is to be published
     struct Advert {
         uint256 AD_ID;
         address adAddress;
@@ -24,6 +28,7 @@ contract RewardVault is Ownable {
         bool displayStatus;
     }
 
+    // Structure of a registerd user
     struct User {
         uint256 userId;
         uint256 rewardBalance;
@@ -36,21 +41,96 @@ contract RewardVault is Ownable {
     // to keep track of published adverts and their mapping ot adId
     uint256 private adCounter;
     mapping(uint256 => Advert) public adIdToAdvert;
+    // to keep track of user interaction with advert;
+    mapping(uint256 => mapping(uint256 => uint256)) public adUserInteraction;
 
     constructor() Ownable(msg.sender) {
         // all Ids start at 1 so that we can check wether a user is registerd
+        //  THE DEPOSIT VALUE ENTERED IS DIVIDED BY 10^18, SO WE HAVE TO MULTIPLY BY IT TO CONVERT IT TO ACTUAL GHO VALUE
+        // AND WE HAVE TO ACCOUNT FOR IT IN REWARDS CONVERSION
         adCounter = 1;
         userCounter = 1;
         conversionFactor = 100;
+        thresHold = 100;
         _owner = msg.sender;
         GHO = IGhoToken(0xc4bF5CbDaBE595361438F8c6a187bDc330539c60);
     }
 
     // function to mint rewards for advertisers
+
+    // ------------------------------------------------------------------------------------------------
+    //                                       SIGNATURE VERIFICATION(BENINGING)
+    // ------------------------------------------------------------------------------------------------
     function _mintRewards(uint256 _adId, uint256 _rewards) private {
         totalRewards += _rewards;
         adIdToAdvert[_adId].rewardBalance += _rewards;
     }
+
+    function getMessageHash(
+        uint _attention,
+        uint _nonce,
+        uint _adId,
+        uint _userId
+    ) internal pure returns (bytes32) {
+        return keccak256(abi.encodePacked(_attention, _nonce, _adId, _userId));
+    }
+
+    function getEthSignedMessageHash(
+        bytes32 _messageHash
+    ) internal pure returns (bytes32) {
+        return
+            keccak256(
+                abi.encodePacked(
+                    "\x19Ethereum Signed Message:\n32",
+                    _messageHash
+                )
+            );
+    }
+
+    // Function to verify that the dispense rewards function is called by the dApp alone
+    function verify(
+        uint _attention,
+        uint _nonce,
+        uint _adId,
+        uint _userId,
+        bytes memory signature
+    ) public view returns (bool) {
+        bytes32 messageHash = getMessageHash(
+            _attention,
+            _nonce,
+            _adId,
+            _userId
+        );
+        bytes32 ethSignedMessageHash = getEthSignedMessageHash(messageHash);
+
+        return
+            recoverSigner(ethSignedMessageHash, signature) == interactionSigner;
+    }
+
+    function recoverSigner(
+        bytes32 _ethSignedMessageHash,
+        bytes memory _signature
+    ) internal pure returns (address) {
+        (bytes32 r, bytes32 s, uint8 v) = splitSignature(_signature);
+
+        return ecrecover(_ethSignedMessageHash, v, r, s);
+    }
+
+    function splitSignature(
+        bytes memory sig
+    ) internal pure returns (bytes32 r, bytes32 s, uint8 v) {
+        require(sig.length == 65, "invalid signature length");
+
+        assembly {
+            r := mload(add(sig, 32))
+            s := mload(add(sig, 64))
+            v := byte(0, mload(add(sig, 96)))
+        }
+    }
+
+    // ------------------------------------------------------------------------------------------------
+    //                                       SIGNATURE VERIFICATION(END0
+    // ------------------------------------------------------------------------------------------------
 
     // function to burn rewards when the user withdraws
     function _burnRewards(address _userAddress, uint _rewards) private {
@@ -67,7 +147,10 @@ contract RewardVault is Ownable {
         uint256 _rewardsPerUser,
         string memory _URL
     ) external {
+        //  THE DEPOSIT VALUE ENTERED IS DIVIDED BY 10^18, SO WE HAVE TO MULTIPLY BY IT TO CONVERT IT TO ACTUAL GHO VALUE
+
         uint _rewards;
+        // The transaction myst be approved befor we can do this
         require(GHO.transferFrom(msg.sender, address(this), _deposit));
         _rewards = conversionFactor * _deposit;
         Advert memory ad = Advert(
@@ -114,11 +197,6 @@ contract RewardVault is Ownable {
         }
     }
 
-    // Function to view advert
-    function displayAdvert(uint256 _adId) public view returns (Advert memory) {
-        return adIdToAdvert[_adId];
-    }
-
     //Function to check the display status of an advert
     function checkAdStatus(uint256 _adId) public view returns (bool) {
         return adIdToAdvert[_adId].displayStatus;
@@ -129,14 +207,31 @@ contract RewardVault is Ownable {
         thresHold = _value;
     }
 
-    // IDK how but have to modify the funtion so that users cant dispense rewards to themselves
-    // Also have to make this function gasless so that users dont be paying gas everytime they see an ad
-    function dispenseReward(uint256 _adId, uint256 _attention) internal {
+    // Have to make this function gasless so that users dont be paying gas everytime they see an ad
+    function dispenseReward(
+        uint256 _adId,
+        uint256 _attention,
+        bytes memory _signature
+    ) public {
         //attention should be between 0-100 and solidity supports only intergers
+        require(
+            registerdUserList[msg.sender].userId != 0,
+            "User is not registered"
+        );
         require(_attention > 0);
         uint256 _rewards = (adIdToAdvert[_adId].rewardsPerUser * _attention) /
             100;
         require(checkAdStatus(_adId));
+        // Verifing the signature of the application that called the function
+        require(
+            verify(
+                _attention,
+                adUserInteraction[_adId][registerdUserList[msg.sender].userId],
+                _adId,
+                registerdUserList[msg.sender].userId,
+                _signature
+            )
+        );
         adIdToAdvert[_adId].rewardBalance =
             adIdToAdvert[_adId].rewardBalance -
             _rewards;
@@ -144,6 +239,10 @@ contract RewardVault is Ownable {
             registerdUserList[msg.sender].rewardBalance +
             _rewards;
         updateAdStatus(_adId);
+        // Updataing the user interaction count with the advert to prevent Replay attacks
+        adUserInteraction[_adId][registerdUserList[msg.sender].userId] =
+            adUserInteraction[_adId][registerdUserList[msg.sender].userId] +
+            1;
     }
 
     // function to withdraw the earnd rewards
