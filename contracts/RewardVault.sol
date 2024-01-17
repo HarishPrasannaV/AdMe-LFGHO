@@ -44,6 +44,8 @@ contract RewardVault is Ownable {
     // to keep track of user interaction with advert;
     mapping(uint256 => mapping(uint256 => uint256)) public adUserInteraction;
 
+    Advert[] private adList; // array to keep track of all the adverts
+
     constructor() Ownable(msg.sender) {
         // all Ids start at 1 so that we can check wether a user is registerd
         //  THE DEPOSIT VALUE ENTERED IS DIVIDED BY 10^18, SO WE HAVE TO MULTIPLY BY IT TO CONVERT IT TO ACTUAL GHO VALUE
@@ -165,6 +167,15 @@ contract RewardVault is Ownable {
         adIdToAdvert[adCounter] = ad;
         _mintRewards(adCounter, _rewards);
         adCounter = adCounter + 1;
+
+        adList.push(ad);
+    }
+
+    // returns Ads
+    function returnAds(uint256 start, uint256 num) external {
+        require(start + num <= adList.length);
+
+        return adList[start: start + num];
     }
 
     // adding a new user
