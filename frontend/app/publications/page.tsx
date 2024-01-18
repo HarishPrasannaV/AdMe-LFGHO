@@ -7,7 +7,11 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-export default function Search() {
+
+
+export default function Publications() {
+  
+
 
   return (
     <div className="px-10 py-14 flex flex-col items-center">

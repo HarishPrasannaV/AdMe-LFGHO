@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { useAccount } from "wagmi"
 import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -14,31 +15,37 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { Input } from "../../components/ui/input"
+import { Input } from "@/components/ui/input"
+import { contractObj } from "@/components/contractConnect"
 
 const formSchema = z.object({
     companyName: z.string().min(2, {
     message: "Username must be at least 2 characters.",
     }),
-    deposit: z.coerce.number(),
+    deposit: z.string(),
     rewardPerUser: z.coerce.number(),
     imageUrl: z.string().url()  
 })
 
 export default function ProfileForm() {
+  const { address } = useAccount()
+  console.log(process.env.INFURA_ID)
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             companyName: "",
-            deposit: 0,
+            deposit: "",
             rewardPerUser: 0,
             imageUrl: ""
         },
       })
      
-      function onSubmit(values: z.infer<typeof formSchema>) {
-        // call smart contract here
-        console.log(values)
+      async function onSubmit(values: z.infer<typeof formSchema>) {
+        const withSigner = contractObj(address)
+        const tx = await withSigner.addAdvert(BigInt(values.deposit), values.companyName, values.rewardPerUser, values.imageUrl);
+        await tx.wait()
+        console.log(tx)
       }
 
   return (
@@ -68,7 +75,7 @@ export default function ProfileForm() {
             <FormItem>
               <FormLabel>Deposity Tokens</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} type="number" />
+                <Input placeholder="shadcn" {...field} />
               </FormControl>
               <FormDescription>
                 Number of tokens you want to deposit for Ad
