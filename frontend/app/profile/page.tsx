@@ -1,23 +1,37 @@
 'use client'
 
+import React, { useState, useEffect } from "react";
+import { contractObj } from "@/components/contractConnect";
+import { Button } from "@/components/ui/button"
 import {
-  useSession
-} from '@lens-protocol/react-web'
-import { Profile } from '@lens-protocol/widgets-react'
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
 
-export default function ProfileComponent() {
-  const { data } = useSession();
-  if (!data) return null
+
+
+export default function joinAdMe() {
+
+  async function addUser() {
+    try{
+      const withSigner = contractObj();
+      await withSigner.addUser();
+      console.log("User has been added succesfully")  
+    }catch(error){
+      window.alert(error);
+    }
+  
+  }
+
+
   return (
-    <div className="px-10 py-14 flex flex-col items-center">
-      {
-        data.type === "WITH_PROFILE" && data.profile && (
-          <Profile
-            handle={`${data.profile.handle?.namespace}/${data.profile.handle?.localName}`}
-            followButtonBackgroundColor='black'
-          />
-        )
-      }
-    </div>
-  )
+    <>
+    <Button type="button" onClick={addUser}>Join Us!</Button>
+    </>
+  );
 }

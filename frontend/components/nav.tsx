@@ -39,12 +39,15 @@ export function Nav() {
         {
          isClient && isConnected && (
             <Link href='/profile'>
-              <p className='ml-4 text-muted-foreground'>Profile</p>
+              <p className='ml-4 text-muted-foreground'>Join AdMe</p>
             </Link>
           )
         }
         <Link href='/publications'>
           <p className='ml-4 text-muted-foreground'>Publications</p>
+        </Link>
+        <Link href='/Ad'>
+          <p className='ml-4 text-muted-foreground'>Publish your Advert!</p>
         </Link>
       </div>
       <div className='sm:hidden mt-3'>
