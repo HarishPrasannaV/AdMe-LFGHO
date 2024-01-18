@@ -1,10 +1,11 @@
+"use client"
+
 import { Contract, providers, Wallet } from "ethers"
 import { abi as contractAbi } from "@/components/abi"
 
 const provider = new providers.Web3Provider(window.ethereum);
 
-export const contractObj = (address) => {
-    console.log(address)
+export const contractObj = () => {
     // const signer = new Wallet(address, provider)
     const signer = provider.getSigner()
 

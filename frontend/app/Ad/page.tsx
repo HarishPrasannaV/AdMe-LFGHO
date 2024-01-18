@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { useAccount } from "wagmi"
 import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -28,7 +27,6 @@ const formSchema = z.object({
 })
 
 export default function ProfileForm() {
-  const { address } = useAccount()
   console.log(process.env.INFURA_ID)
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -42,7 +40,7 @@ export default function ProfileForm() {
       })
      
       async function onSubmit(values: z.infer<typeof formSchema>) {
-        const withSigner = contractObj(address)
+        const withSigner = contractObj()
         const tx = await withSigner.addAdvert(BigInt(values.deposit), values.companyName, values.rewardPerUser, values.imageUrl);
         await tx.wait()
         console.log(tx)

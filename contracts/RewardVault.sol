@@ -171,6 +171,11 @@ contract RewardVault is Ownable {
         adList.push(ad);
     }
 
+    function getRandomNumber(uint256 range) public view returns (uint256) {
+        uint256 randomSeed = uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty, msg.sender)));
+        return randomSeed % range;
+    }
+
     // returns Ads
     function returnAds(uint256 start, uint256 num) external view returns (Advert[] memory) {
         require(start + num <= adList.length);
