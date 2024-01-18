@@ -172,10 +172,17 @@ contract RewardVault is Ownable {
     }
 
     // returns Ads
-    function returnAds(uint256 start, uint256 num) external {
+    function returnAds(uint256 start, uint256 num) external view returns (Advert[] memory) {
         require(start + num <= adList.length);
 
-        return adList[start: start + num];
+        Advert[] memory ret = new Advert[](num);
+
+        for (uint256 i = 0; i < num; i++) 
+        {
+            ret[i] = adList[i + start];
+        }
+
+        return ret;
     }
 
     // adding a new user
