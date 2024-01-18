@@ -1,32 +1,29 @@
-'use client'
-
 import {
-  useExplorePublications, ExplorePublicationsOrderByType, LimitType
-} from '@lens-protocol/react-web'
-
-import { Publication } from '@lens-protocol/widgets-react'
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 export default function Search() {
-  let { data: publications, loading } = useExplorePublications({
-    orderBy: ExplorePublicationsOrderByType.TopCommented,
-    limit: LimitType.TwentyFive
-  })
 
   return (
     <div className="px-10 py-14 flex flex-col items-center">
-      { loading && <p>Loading ...</p> }
-      {
-        publications?.map(publication => {
-          console.log(publication)
-          return (
-            <div style={{marginBottom: 10}} key={publication.id}>
-              <Publication
-                publicationId={publication.id}
-              />
-            </div>
-          )
-        })
-      }
+      <Card>
+        <CardHeader>
+          <CardTitle>Card Title</CardTitle>
+          <CardDescription>Card Description</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p>Card Content</p>
+        </CardContent>
+        <CardFooter>
+          <p>Card Footer</p>
+        </CardFooter>
+      </Card>
+
     </div>
   )
 }

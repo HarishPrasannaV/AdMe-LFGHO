@@ -1,8 +1,6 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
 import { ThemeProvider } from "@/components/theme-provider"
-import { LensProvider } from '@/components/lens-provider'
-import { Web3ModalProvider } from '@/components/web3modal-provider'
 import { Nav } from '@/components/nav'
 import * as React from "react"
 import { ConnectkitProvider } from '@/components/connectkit-provider'
@@ -24,12 +22,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ConnectkitProvider>
-          <LensProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <Nav />
               {children}
             </ThemeProvider>
-          </LensProvider>
         </ConnectkitProvider>
       </body>
     </html>

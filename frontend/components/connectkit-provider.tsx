@@ -1,8 +1,7 @@
 'use client'
 
-import { WagmiConfig, createConfig } from "wagmi";
+import { WagmiConfig, createConfig, sepolia } from "wagmi";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
-import { polygonMumbai } from "wagmi/chains";
 
 const config = createConfig(
   getDefaultConfig({
@@ -12,7 +11,7 @@ const config = createConfig(
 
     // Required
     appName: "Adme",
-    chains: [polygonMumbai],
+    chains: [sepolia],
   }),
 );
 
