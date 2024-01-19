@@ -32,14 +32,14 @@ export function Nav() {
       <div className='flex flex-1 flex-row'>
         <Link href='/'>
           <h1 className='text-gray'>
-            <span className='font-bold'>Lens</span>
-            Protocol
+            <span className='font-bold'>Ad</span>
+            Me
           </h1>
         </Link>
         {
          isClient && isConnected && (
             <Link href='/profile'>
-              <p className='ml-4 text-muted-foreground'>Join AdMe</p>
+              <p className='ml-4 text-muted-foreground'>Rewards</p>
             </Link>
           )
         }
