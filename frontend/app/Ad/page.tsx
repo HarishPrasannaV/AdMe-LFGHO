@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { useRouter } from "next/navigation"
 import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -27,7 +28,7 @@ const formSchema = z.object({
 })
 
 export default function ProfileForm() {
-  console.log(process.env.INFURA_ID)
+  const router = useRouter()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -44,6 +45,9 @@ export default function ProfileForm() {
         const tx = await withSigner.addAdvert(BigInt(values.deposit), values.companyName, values.rewardPerUser, values.imageUrl);
         await tx.wait()
         console.log(tx)
+        if(tx) {
+          router.refresh()
+        }
       }
 
   return (
