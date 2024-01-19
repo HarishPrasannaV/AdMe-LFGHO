@@ -47,7 +47,7 @@ export default function Publications() {
   return (
     <>
       {ads.map((ad) => (
-        <Ad ad={ad} />
+        <Ad ad={ad} key={ad.AD_ID} />
       ))}
     </>
   );
