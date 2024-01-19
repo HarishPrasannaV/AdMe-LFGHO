@@ -1,11 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  output: "export",
   reactStrictMode: true,
   images: {
     unoptimized: true,
   },
   trailingSlash: true,
-}
+};
+const Dotenv = require("dotenv-webpack");
 
-module.exports = nextConfig
+module.exports = {
+  // ... other webpack configurations
+  plugins: [new Dotenv()],
+};
+
+module.exports = nextConfig;
