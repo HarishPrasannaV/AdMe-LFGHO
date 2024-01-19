@@ -17,6 +17,7 @@ function getMessageHash(attention, nonce, adId, userId) {
 }
 
 
+
 export default function signMessage(attention, nonce, adId, userId) {
     const trxn_hash = Utils.arrayify(
         getMessageHash(attention, nonce, adId, userId)
@@ -25,5 +26,23 @@ export default function signMessage(attention, nonce, adId, userId) {
     const signat = wallet.signMessage(trxn_hash);
     return signat;
 }
+
+
+
+// function signMessage(attention, nonce, adId, userId) {
+//   const trxn_hash = Utils.arrayify(
+//       getMessageHash(attention, nonce, adId, userId)
+//     );
+
+//   const signat = wallet.signMessage(trxn_hash);
+//   return signat;
+// }
+
+// signMessage(22, 0 , 1 ,2).then((resolvedValue) => {
+//   console.log(resolvedValue);
+// });
+
+
+
 
 

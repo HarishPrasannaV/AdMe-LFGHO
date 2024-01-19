@@ -1,3 +1,4 @@
+'use client';
 import { Suspense, useState, useEffect, useRef } from "react"
 import Image from "next/image";
 import { useInView } from "react-intersection-observer";
@@ -11,6 +12,9 @@ import {
 } from "@/components/ui/card";
 import signMessage from "@/components/signMessage";
 import { contractObj } from "@/components/contractConnect";
+import { ethers, BigNumber } from "ethers";
+
+
 
 // Function to claculate attentiion based on user time
 
@@ -25,10 +29,21 @@ function calculateAttention(adScreenTime) {
   return roundedAttention;
 }
 
+interface UserData {
+  0: BigNumber; 
+  1: BigNumber; 
+  2: string;    
+}
+
 export default function Ad({ ad }) {
     const startTime = useRef(0);
     const endTime = useRef(0);
     const attention = useRef(0);
+    const [userData, setUserData] = useState<UserData>([BigNumber.from(0), BigNumber.from(0), ""]);
+    const [address, setAddress] = useState("");
+    const [userId, setUserId] = useState(0);
+    const [userNonce, setUserNonce] = useState(0);
+    
 
     const changeCount = useRef(0);
 
@@ -47,6 +62,29 @@ export default function Ad({ ad }) {
     const updateChangeCount = (newValue) => {
       changeCount.current = newValue;
     };
+
+    const adId = parseInt(ad.AD_ID._hex, 16); // Getting the AD ID
+
+    async function updateDetails() {
+      try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+        const signer = provider.getSigner();
+        const address = await signer.getAddress();
+        setAddress(address);
+        const withSigner = contractObj();
+        const userData = await withSigner.registerdUserList(address);
+        
+        setUserData(userData);
+        setUserId(parseInt(userData[0]._hex, 16)); // Setting the User ID
+
+        const userNonce = await withSigner.adUserInteraction(adId, userId);
+        setUserNonce(parseInt(userNonce._hex, 16)); // Setting user nonce
+      } catch (error) {
+        window.alert(error);
+      }
+    }
+
+    updateDetails();
 
 
     
@@ -68,6 +106,10 @@ export default function Ad({ ad }) {
               const attention = calculateAttention(endTime.current - startTime.current);
               updateAttention(attention);
               console.log("Attention:", attention);
+              console.log(attention, userNonce, adId, userId);
+              // THE MESSAGE SIGNING DOSENT WORK
+              // signMessage(attention, userNonce, adId, userId);
+              // console.log(signature);
 
             }
             
