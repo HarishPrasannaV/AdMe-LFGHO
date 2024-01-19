@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { contractObj } from "@/components/contractConnect";
 import Ad from "@/components/ui/ad";
+import Post from "@/components/ui/post";
 import {
   Pagination,
   PaginationContent,
@@ -21,8 +22,16 @@ interface Ad {
   URL: string;
 }
 
+interface Post {
+  _id: string;
+  name: string;
+  content: string;
+  imageUrl: string;
+}
+
 export default function Publications({ params }) {
   const [ads, setAds] = useState<Ad[]>([]);  
+  const [posts, setPosts] = useState<Post[]>([]);
 
   async function fetchAds(start, end) {
     try {
@@ -36,15 +45,37 @@ export default function Publications({ params }) {
     }
   }
 
+  async function fetchPosts() {
+    try {
+      const res = await fetch("http://localhost:4000/user-posts");
+      const userposts = await res.json();
+      setPosts(userposts.slice(7 * (params.page - 1), (7 * (params.page - 1)) + 7));
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+    }
+  }
+
   useEffect(() => {
     fetchAds(params.page - 1, 1);
+    fetchPosts();
   }, []); // This will run the fetchAds function when the component mounts
 
+  if(posts) {
+    console.log(posts);
+  }
 
   return (
     <>
+      {posts.slice(0, 5).map((post) => (
+        <Post post={post} key={post._id} />
+      ))}
+
       {ads.map((ad) => (
         <Ad ad={ad} key={ad.AD_ID} />
+      ))}
+
+      {posts.slice(5, 7).map((post) => (
+        <Post post={post} key={post._id} />
       ))}
 
       <Pagination>

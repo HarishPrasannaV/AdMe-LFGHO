@@ -1,10 +1,112 @@
-[
-    {
-        "username": "rage",
-        "content": "I'm a rage bot!",
-        "imageUrl": ""
-    },
-    {
-        
-    }
-]
+{
+    "user-posts": [
+        {
+          "_id": "65aa6f1656ab77699fb7e20e",
+          "name": "Bush Sparks",
+          "content": "proident deserunt sit nisi excepteur",
+          "imageUrl": "https://images.unsplash.com/photo-1703702756941-3504879af434?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        },
+        {
+          "_id": "65aa6f16bd27a7980a147c7e",
+          "name": "Earline Pollard",
+          "content": "quis culpa esse quis nulla",
+          "imageUrl": "https://images.unsplash.com/photo-1703702756941-3504879af434?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        },
+        {
+          "_id": "65aa6f169c0481ffd1b9d4db",
+          "name": "Krista Lynch",
+          "content": "qui elit ut duis aliquip",
+          "imageUrl": "https://images.unsplash.com/photo-1703702756941-3504879af434?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        },
+        {
+          "_id": "65aa6f16ae27bc0eb474348a",
+          "name": "Tina Cardenas",
+          "content": "excepteur eiusmod nisi cillum anim",
+          "imageUrl": "https://images.unsplash.com/photo-1703702756941-3504879af434?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        },
+        {
+          "_id": "65aa6f16eba2230f60baa528",
+          "name": "Dunn Suarez",
+          "content": "ut nostrud ad excepteur nisi",
+          "imageUrl": "https://images.unsplash.com/photo-1703702756941-3504879af434?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        },
+        {
+          "_id": "65aa6f1607230e55f0c3c7c8",
+          "name": "Priscilla Moody",
+          "content": "enim sunt adipisicing aliqua irure",
+          "imageUrl": "https://images.unsplash.com/photo-1703702756941-3504879af434?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        },
+        {
+          "_id": "65aa6f1644b545c77be0d8e2",
+          "name": "Francine Wilkinson",
+          "content": "ad labore dolor cillum duis",
+          "imageUrl": "https://images.unsplash.com/photo-1703702756941-3504879af434?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        },
+        {
+          "_id": "65aa6f16aca01701de3f7bd8",
+          "name": "Mendoza Mooney",
+          "content": "cupidatat ea tempor proident do",
+          "imageUrl": "https://images.unsplash.com/photo-1703702756941-3504879af434?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        },
+        {
+          "_id": "65aa6f165b95e23df11fa2c5",
+          "name": "Gale Tyler",
+          "content": "ex nostrud nisi ipsum labore",
+          "imageUrl": "https://images.unsplash.com/photo-1703702756941-3504879af434?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        },
+        {
+          "_id": "65aa6f1629a0bba855ed50e7",
+          "name": "Becker Burgess",
+          "content": "laborum minim laborum laboris commodo",
+          "imageUrl": "https://images.unsplash.com/photo-1703702756941-3504879af434?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        },
+        {
+          "_id": "65aa6f1681cf3a3902f5af2f",
+          "name": "Collier Shepard",
+          "content": "adipisicing sunt ut amet ullamco",
+          "imageUrl": "https://images.unsplash.com/photo-1703702756941-3504879af434?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        },
+        {
+          "_id": "65aa6f16c614b598695db711",
+          "name": "Esther Gregory",
+          "content": "ullamco quis sit aute dolore",
+          "imageUrl": "https://images.unsplash.com/photo-1703702756941-3504879af434?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        },
+        {
+          "_id": "65aa6f16f24cb2e339a63bb3",
+          "name": "Kaye Hubbard",
+          "content": "amet nisi exercitation incididunt fugiat",
+          "imageUrl": "https://images.unsplash.com/photo-1703702756941-3504879af434?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        },
+        {
+          "_id": "65aa6f16ee78fac2a003b9e1",
+          "name": "Hester Coffey",
+          "content": "fugiat commodo nostrud velit magna",
+          "imageUrl": "https://images.unsplash.com/photo-1703702756941-3504879af434?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        },
+        {
+          "_id": "65aa6f1693b5c1931a6969f8",
+          "name": "Woodard Hinton",
+          "content": "aute voluptate adipisicing eu excepteur",
+          "imageUrl": "https://images.unsplash.com/photo-1703702756941-3504879af434?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        },
+        {
+          "_id": "65aa6f168bd4ee7e28c59382",
+          "name": "Carter Dudley",
+          "content": "labore consequat sit culpa cillum",
+          "imageUrl": "https://images.unsplash.com/photo-1703702756941-3504879af434?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        },
+        {
+          "_id": "65aa6f16cf5b3d431bfc8eab",
+          "name": "Owen Sharpe",
+          "content": "aliqua eiusmod dolor adipisicing tempor",
+          "imageUrl": "https://images.unsplash.com/photo-1703702756941-3504879af434?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        },
+        {
+          "_id": "65aa6f16ca5eac7b44b3e4cc",
+          "name": "Alberta Douglas",
+          "content": "proident culpa labore mollit laboris",
+          "imageUrl": "https://images.unsplash.com/photo-1703702756941-3504879af434?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        }
+      ]
+}
