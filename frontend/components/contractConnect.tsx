@@ -3,7 +3,7 @@
 import { Contract, providers, Wallet } from "ethers"
 import { abi as contractAbi } from "@/components/abi"
 
-const provider = new providers.Web3Provider(window.ethereum);
+const provider = new providers.Web3Provider((window as any).ethereum);
 
 export const contractObj = () => {
     // const signer = new Wallet(address, provider)

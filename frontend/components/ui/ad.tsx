@@ -1,6 +1,6 @@
 import { Suspense, useState, useEffect, useRef } from "react"
 import Image from "next/image";
-import { useInView, IntersectionOptions } from "react-intersection-observer";
+import { useInView } from "react-intersection-observer";
 import {
         Card,
         CardContent,
@@ -8,7 +8,9 @@ import {
         CardFooter,
         CardHeader,
         CardTitle,
-    } from "@/components/ui/card";
+} from "@/components/ui/card";
+import signMessage from "@/components/signMessage";
+import { contractObj } from "@/components/contractConnect";
 
 export default function Ad({ ad }) {
     const [visibleTime, setVisibleTime] = useState(0);
@@ -18,31 +20,47 @@ export default function Ad({ ad }) {
     const [ref, inView] = useInView({
         threshold: 0.75,
         rootMargin: "0px",
-        root: null
+        root: null,
+        onChange: (inView, entry) => {
+            if (inView) {
+                if (!isComponentVisible) {
+                  setIsComponentVisible(true);
+                  startTimeRef.current = Date.now();
+                  console.log(startTimeRef.current)
+                }
+              } else {
+                if (isComponentVisible) {
+                  setIsComponentVisible(false);
+                  setVisibleTime((prevVisibleTime) => prevVisibleTime + (Date.now() - startTimeRef.current));
+                  console.log(ad.AD_ID, visibleTime);
+                  startTimeRef.current = 0;
+                }
+              }
+        }
     });
 
-    useEffect(() => {
-        if (inView) {
-          if (!isComponentVisible) {
-            // Component has become visible
-            setIsComponentVisible(true);
-            startTimeRef.current = Date.now();
-          }
-        } else {
-          if (isComponentVisible) {
-            // Component has become invisible
-            setIsComponentVisible(false);
-            setVisibleTime((prevVisibleTime) => prevVisibleTime + (Date.now() - startTimeRef.current));
-            console.log(ad.AD_ID, visibleTime);
-            startTimeRef.current = 0;
-          }
-        }
-      }, [inView, isComponentVisible]);
+    // useEffect(() => {
+    //     if (inView) {
+    //       if (!isComponentVisible) {
+    //         // Component has become visible
+    //         setIsComponentVisible(true);
+    //         startTimeRef.current = Date.now();
+    //       }
+    //     } else {
+    //       if (isComponentVisible) {
+    //         // Component has become invisible
+    //         setIsComponentVisible(false);
+    //         setVisibleTime((prevVisibleTime) => prevVisibleTime + (Date.now() - startTimeRef.current));
+    //         console.log(ad.AD_ID, visibleTime);
+    //         startTimeRef.current = 0;
+    //       }
+    //     }
+    //   }, [inView, isComponentVisible]);
 
     return (
         <Suspense fallback={<div>Loading...</div>} key={ad.AD_ID}>
                     <div 
-                        className="px-10 py-12 flex flex-col items-center"             
+                        className="px-10 py-8 flex flex-col items-center"             
                         data-ad-id={ad.AD_ID}
             ref={ref}
           >

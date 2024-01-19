@@ -15,7 +15,9 @@ import {
 } from "@/components/ui/pagination"
 
 interface Ad {
-  AD_ID: string;
+  AD_ID: {
+    _hex: string;
+  };
   companyName: string;
   deposit: number;
   rewardPerUser: number;
@@ -60,10 +62,6 @@ export default function Publications({ params }) {
     fetchPosts();
   }, []); // This will run the fetchAds function when the component mounts
 
-  if(posts) {
-    console.log(posts);
-  }
-
   return (
     <>
       {posts.slice(0, 5).map((post) => (
@@ -71,7 +69,7 @@ export default function Publications({ params }) {
       ))}
 
       {ads.map((ad) => (
-        <Ad ad={ad} key={ad.AD_ID} />
+        <Ad ad={ad} key={ad.AD_ID._hex} />
       ))}
 
       {posts.slice(5, 7).map((post) => (

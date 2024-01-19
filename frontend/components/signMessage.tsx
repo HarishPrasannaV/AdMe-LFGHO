@@ -15,10 +15,10 @@ function getMessageHash(attention, nonce, adId, userId) {
   return Web3.utils.keccak256(packedData);
 }
 
-const adId = 1; // should be returned when displaying advert
-const userId = 2; // should read from contract
-const attention = 50;
-const nonce = 1; // should read from contract
+// const adId = 1; // should be returned when displaying advert
+// const userId = 2; // should read from contract
+// const attention = 50;
+// const nonce = 1; // should read from contract
 
 export default function signMessage(attention, nonce, adId, userId) {
     const trxn_hash = Utils.arrayify(

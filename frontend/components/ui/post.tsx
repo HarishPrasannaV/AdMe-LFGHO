@@ -14,7 +14,7 @@ export default function Post({ post }) {
   return (
     <Suspense>
         <div 
-            className="px-10 py-12 flex flex-col items-center"             
+            className="px-10 py-8 flex flex-col items-center"             
             data-ad-id={post.id}
           >
             <Card>
