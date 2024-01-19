@@ -16,7 +16,6 @@ export default function Ad({ ad }) {
     const startTimeRef = useRef(0);
     
     const [ref, inView] = useInView({
-        triggerOnce: true,
         threshold: 0.75,
         rootMargin: "0px",
         root: null
@@ -34,7 +33,7 @@ export default function Ad({ ad }) {
             // Component has become invisible
             setIsComponentVisible(false);
             setVisibleTime((prevVisibleTime) => prevVisibleTime + (Date.now() - startTimeRef.current));
-            console.log(visibleTime);
+            console.log(ad.AD_ID, visibleTime);
             startTimeRef.current = 0;
           }
         }
@@ -53,12 +52,12 @@ export default function Ad({ ad }) {
                 <CardDescription>Watch ad to get rewards</CardDescription>
               </CardHeader>
               <CardContent>
-                {/* <Image 
-                  src={ad.URL}
+                <Image 
+                  src="https://images.unsplash.com/photo-1682687221006-b7fd60cf9dd0?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8"
                   width={400}
                   height={400}
                   alt="image"
-                /> */}
+                />
               </CardContent>
               {/* <CardFooter>
                 <p>sdfsd</p>

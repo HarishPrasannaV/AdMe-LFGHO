@@ -43,7 +43,7 @@ export function Nav() {
             </Link>
           )
         }
-        <Link href='/publications'>
+        <Link href='/publications/1'>
           <p className='ml-4 text-muted-foreground'>Publications</p>
         </Link>
         <Link href='/Ad'>
