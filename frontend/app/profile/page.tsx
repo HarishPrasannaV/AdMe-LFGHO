@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { contractObj } from "@/components/contractConnect";
 import { Button } from "@/components/ui/button";
 import { ethers, BigNumber } from "ethers";
@@ -14,6 +15,7 @@ interface UserData {
 export default function Rewards() {
   const [userData, setUserData] = useState<UserData>([BigNumber.from(0), BigNumber.from(0), ""]);
   const [address, setAddress] = useState("");
+  const router = useRouter();
 
   async function updateDetails() {
     try {
@@ -29,17 +31,21 @@ export default function Rewards() {
     }
   }
 
+  
+
   async function dispenseRewards() {
     updateDetails();
     const withSigner = contractObj();
-    await withSigner.withdrawRewards();
-    updateDetails();    
+    const tx = await withSigner.withdrawRewards();
+    await tx.wait()
+    updateDetails();
+    router.refresh()    
   }
 
   return (
     <>
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100vh" }}>
-      <div style={{ textAlign: "center" }}>
+      {/* <div style={{ textAlign: "center" }}>
         <h1 style={{ fontSize: "2em", fontWeight: "bold", color: "green" }}>View Your Details Here</h1>
         <div>
           <p>User ID: {userData[0] ? parseInt(userData[0]._hex, 16) : 'N/A'}</p>
@@ -47,7 +53,7 @@ export default function Rewards() {
           <p>User Address: {userData[2]}</p>
           <Button onClick={updateDetails}>View Details</Button>
         </div>
-      </div>
+      </div> */}
 
       <div style={{ textAlign: "center" }}>
         <h1 style={{ fontSize: "2em", fontWeight: "bold", color: "red" }}>Withdraw Your Rewards:</h1>

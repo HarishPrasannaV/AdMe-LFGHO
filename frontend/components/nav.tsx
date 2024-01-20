@@ -7,9 +7,17 @@ import { contractObj } from './contractConnect'
 import { LogIn } from 'lucide-react'
 import { useAccount, useDisconnect } from 'wagmi'
 import { useModal } from 'connectkit'
+import { ethers, BigNumber } from "ethers";
 import Link from 'next/link'
 
+interface UserData {
+  0: BigNumber; 
+  1: BigNumber; 
+  2: string;    
+}
+
 export function Nav() {
+  const [userData, setUserData] = useState<UserData>([BigNumber.from(0), BigNumber.from(0), ""]);
   const { address, isConnected } = useAccount()
   const { setOpen } = useModal()
   const [isClient, setIsClient] = useState(false)
@@ -20,7 +28,6 @@ export function Nav() {
       const withSigner = contractObj();
       const user = await withSigner.registerdUserList(address);
       const userId = parseInt(user.userId._hex, 16);
-      console.log(userId);
       if(userId !== 0){
         setIsRegistered(true);
       }
@@ -29,9 +36,20 @@ export function Nav() {
     }
   }
 
+  async function updateDetails() {
+    try {
+      const withSigner = contractObj();
+      const userData = await withSigner.registerdUserList(address);
+      setUserData(userData);
+    } catch (error) {
+      window.alert(error);
+    }
+  }
+
   useEffect(() => {
-    setIsClient(true)    
-  }, [])
+    setIsClient(true);
+    updateDetails();  
+  }, [address, isConnected])
 
   useEffect(() => {
     checkUser();
@@ -79,6 +97,9 @@ export function Nav() {
         <Link href='/Ad'>
           <p className='ml-4 text-muted-foreground'>Publish your Advert!</p>
         </Link>
+      </div>
+      <div className='mr-4'>
+        <h2>Rewards Earned: {userData ? parseInt(userData[1]._hex, 16) : 0}</h2>
       </div>
       <div className='sm:hidden mt-3'>
         {

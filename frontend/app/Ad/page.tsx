@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { useRouter } from "next/navigation"
 import * as z from "zod"
-
+import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -16,6 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Toaster } from "@/components/ui/sonner"
 import { contractObj } from "@/components/contractConnect"
 
 const formSchema = z.object({
@@ -46,13 +47,15 @@ export default function ProfileForm() {
         await tx.wait()
         console.log(tx)
         if(tx) {
+          toast.success("Advert added successfully")
           router.refresh()
         }
       }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <Toaster />
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-10 ml-40 mr-40 border p-10">
         <FormField
           control={form.control}
           name="companyName"
@@ -60,7 +63,7 @@ export default function ProfileForm() {
             <FormItem>
               <FormLabel>Company Name</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="Company..." {...field} />
               </FormControl>
               <FormDescription>
                 This is your public display name.
@@ -75,9 +78,9 @@ export default function ProfileForm() {
           name="deposit"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Deposity Tokens</FormLabel>
+              <FormLabel>Deposit Tokens</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="" {...field} />
               </FormControl>
               <FormDescription>
                 Number of tokens you want to deposit for Ad
@@ -94,7 +97,7 @@ export default function ProfileForm() {
             <FormItem>
               <FormLabel>Reward Per User</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} type="number" />
+                <Input placeholder="" {...field} type="number" />
               </FormControl>
               <FormDescription>
                 How many tokens per user?
@@ -111,7 +114,7 @@ export default function ProfileForm() {
             <FormItem>
               <FormLabel>Image URL</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="https://example.com/image" {...field} />
               </FormControl>
               <FormDescription>
                 URL for Ad Image
