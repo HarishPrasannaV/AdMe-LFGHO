@@ -36,14 +36,14 @@ interface UserData {
 }
 
 export default function Ad({ ad }) {
+    let signat;
     const startTime = useRef(0);
     const endTime = useRef(0);
     const attention = useRef(0);
     const [userData, setUserData] = useState<UserData>([BigNumber.from(0), BigNumber.from(0), ""]);
     const [address, setAddress] = useState("");
     const [userId, setUserId] = useState(0);
-    const [userNonce, setUserNonce] = useState(0);
-    
+    const [userNonce, setUserNonce] = useState(0);    
 
     const changeCount = useRef(0);
 
@@ -88,6 +88,11 @@ export default function Ad({ ad }) {
         updateDetails();
     }, [])   
 
+    async function callDispense(adId, attention, signat) {
+        const withSigner = contractObj();
+        await withSigner.dispenseReward(adId, attention, signat)
+    }
+
 
     
     const [ref, inView] = useInView({
@@ -111,8 +116,10 @@ export default function Ad({ ad }) {
               console.log(attention, userNonce, adId, userId);
 
               // THE MESSAGE SIGNING DOSENT WORK
-              signMessage(attention, userNonce, adId, userId);
-
+              signMessage(attention, userNonce, adId, userId).then((resolvedValue) => {
+                console.log(resolvedValue)
+                callDispense(adId, attention, resolvedValue);
+              });
             }
             
         }

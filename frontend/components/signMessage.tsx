@@ -19,14 +19,13 @@ function getMessageHash(attention, nonce, adId, userId) {
 
 
 export default function signMessage(attention, nonce, adId, userId) {
-  console.log(PrivateKey)
     const trxn_hash = Utils.arrayify(
         getMessageHash(attention, nonce, adId, userId)
       );
       let signat;
     if (wallet) {
       signat = wallet.signMessage(trxn_hash);
-      console.log(signat);
+      // console.log(signat);
       // Rest of the code...
     }
     return signat;
