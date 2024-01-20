@@ -1,6 +1,8 @@
 'use client'
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
+import { useRouter } from "next/navigation";
+import { useAccount } from "wagmi";
 import { contractObj } from "@/components/contractConnect";
 import Ad from "@/components/ui/ad";
 import Post from "@/components/ui/post";
@@ -13,6 +15,19 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { set } from "react-hook-form";
+
 
 interface Ad {
   AD_ID: {
@@ -34,6 +49,27 @@ interface Post {
 export default function Publications({ params }) {
   const [ads, setAds] = useState<Ad[]>([]);  
   const [posts, setPosts] = useState<Post[]>([]);
+  const { address, isConnected } = useAccount();
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
+
+  async function checkUser() {
+    try{
+      setLoading(true);
+      const withSigner = contractObj();
+      const user = await withSigner.registerdUserList(address);
+      const userId = parseInt(user.userId._hex, 16);
+      console.log(userId);
+      if(userId !== 0){
+        setIsRegistered(true);
+      }
+      setLoading(false);
+    }catch(error){
+      console.log(error);
+    }
+  }
 
   async function fetchAds(start, end) {
     try {
@@ -57,51 +93,99 @@ export default function Publications({ params }) {
     }
   }
 
+  async function addUser() {
+    try{
+      const withSigner = contractObj();
+      await withSigner.addUser();
+      console.log("User has been added succesfully")  
+    }catch(error){
+      window.alert(error);
+    }  
+  }
+
   useEffect(() => {
     fetchAds(params.page - 1, 1);
     fetchPosts();
-  }, []); // This will run the fetchAds function when the component mounts
+  }, []);
+
+  useEffect(() => {
+    checkUser();
+  }, [])
 
   return (
     <>
-      {posts.slice(0, 5).map((post) => (
-        <Post post={post} key={post._id} />
-      ))}
+      {isConnected && isRegistered && (
+        <>
+        {posts.slice(0, 5).map((post) => (
+          <Post post={post} key={post._id} />
+        ))}
+  
+        {ads.map((ad) => (
+          <Ad ad={ad} key={ad.AD_ID._hex} />
+        ))}
+  
+        {posts.slice(5, 7).map((post) => (
+          <Post post={post} key={post._id} />
+        ))}
+  
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href={`/publications/${parseInt(params.page) - 1}`} />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href={`/publications/${parseInt(params.page)}`}>{params.page}</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href={`/publications/${parseInt(params.page) + 1}`}>
+              {parseInt(params.page) + 1}
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href={`/publications/${parseInt(params.page) + 2}`}>
+                {parseInt(params.page) + 2}
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href={`/publications/${parseInt(params.page) + 1}`} />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+        </>
+      )}
 
-      {ads.map((ad) => (
-        <Ad ad={ad} key={ad.AD_ID._hex} />
-      ))}
-
-      {posts.slice(5, 7).map((post) => (
-        <Post post={post} key={post._id} />
-      ))}
-
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious href={`/publications/${parseInt(params.page) - 1}`} />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href={`/publications/${parseInt(params.page)}`}>{params.page}</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href={`/publications/${parseInt(params.page) + 1}`}>
-            {parseInt(params.page) + 1}
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href={`/publications/${parseInt(params.page) + 2}`}>
-              {parseInt(params.page) + 2}
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext href={`/publications/${parseInt(params.page) + 1}`} />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+      {isConnected && !isRegistered && !loading && (
+        <Suspense>
+        <AlertDialog open={true}>
+        {/* <AlertDialogTrigger>Open</AlertDialogTrigger> */}
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Register to view Posts</AlertDialogTitle>
+            <AlertDialogDescription>
+              In order to get reward from Ads you have to register with AdMe to view Publications.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>
+              <button onClick={() => {router.push('/')}}>Go Back</button>              
+              </AlertDialogCancel>
+            <AlertDialogAction>
+              <button onClick={() => {
+                addUser();
+                router.refresh();
+              }}>
+                Register
+              </button>              
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      </Suspense>
+      )}
+      
 
     </>
   );

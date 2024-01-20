@@ -17,7 +17,7 @@ export default function Rewards() {
 
   async function updateDetails() {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+      const provider = new ethers.providers.Web3Provider((window as any).ethereum, "any");
       const signer = provider.getSigner();
       const address = await signer.getAddress();
       setAddress(address);

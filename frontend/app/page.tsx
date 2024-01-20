@@ -2,20 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import { contractObj } from "@/components/contractConnect";
-import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-
+import { Button } from "@/components/ui/button";
+import { useAccount } from "wagmi";
 
 
 export default function joinAdMe() {
+  const { address, isConnected } = useAccount()
+  const [isRegistered, setIsRegistered] = useState(false)
 
   async function addUser() {
     try{
@@ -24,14 +17,32 @@ export default function joinAdMe() {
       console.log("User has been added succesfully")  
     }catch(error){
       window.alert(error);
-    }
-  
+    }  
   }
+
+  // async function checkUser() {
+  //   try{
+  //     const withSigner = contractObj();
+  //     const user = await withSigner.registerdUserList(address);
+  //     const userId = parseInt(user.userId._hex, 16);
+  //     console.log(userId);
+  //     if(userId !== 0){
+  //       setIsRegistered(true);
+  //     }
+  //   }catch(error){
+  //     window.alert(error);
+  //   }
+  // }
+
+  useEffect(() => {
+    // checkUser();
+  }, [address])
 
 
   return (
 <>
-  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100vh" }}>
+  {/* {isConnected && !isRegistered && (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100vh" }}>
     <h1 style={{ fontSize: "2em", fontWeight: "bold", color: "green" }}>Become a registered user</h1>
     <Button
       type="button"
@@ -49,6 +60,7 @@ export default function joinAdMe() {
       Click to join us !
     </Button>
   </div>
+  )} */}
 </>
 
   );

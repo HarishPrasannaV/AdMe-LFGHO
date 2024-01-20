@@ -36,7 +36,7 @@ interface UserData {
 }
 
 export default function Ad({ ad }) {
-    let signat;
+    let user, nonce;
     const startTime = useRef(0);
     const endTime = useRef(0);
     const attention = useRef(0);
@@ -75,10 +75,13 @@ export default function Ad({ ad }) {
         const userData = await withSigner.registerdUserList(address);
         
         setUserData(userData);
-        setUserId(parseInt(userData[0]._hex, 16)); // Setting the User ID
 
-        const userNonce = await withSigner.adUserInteraction(adId, userId);
-        setUserNonce(parseInt(userNonce._hex, 16)); // Setting user nonce
+        user = parseInt(userData.userId._hex, 16)
+        setUserId(parseInt(userData.userId._hex, 16)); // Setting the User ID
+        const userNoncee = await withSigner.adUserInteraction(adId, userId);   
+        nonce = parseInt(userNoncee._hex, 16);    
+        setUserNonce(parseInt(userNoncee._hex, 16)); // Setting user nonce
+
       } catch (error) {
         window.alert(error);
       }
@@ -86,7 +89,7 @@ export default function Ad({ ad }) {
 
     useEffect(() => {
         updateDetails();
-    }, [])   
+    }, [userNonce, userId])   
 
     async function callDispense(adId, attention, signat) {
         const withSigner = contractObj();

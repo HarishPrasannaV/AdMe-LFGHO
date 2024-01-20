@@ -3,8 +3,9 @@
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { ModeToggle } from '@/components/mode-toggle'
+import { contractObj } from './contractConnect'
 import { LogIn } from 'lucide-react'
-import { useAccount } from 'wagmi'
+import { useAccount, useDisconnect } from 'wagmi'
 import { useModal } from 'connectkit'
 import Link from 'next/link'
 
@@ -12,10 +13,29 @@ export function Nav() {
   const { address, isConnected } = useAccount()
   const { setOpen } = useModal()
   const [isClient, setIsClient] = useState(false)
+  const [isRegistered, setIsRegistered] = useState(false)
+
+  async function checkUser() {
+    try{
+      const withSigner = contractObj();
+      const user = await withSigner.registerdUserList(address);
+      const userId = parseInt(user.userId._hex, 16);
+      console.log(userId);
+      if(userId !== 0){
+        setIsRegistered(true);
+      }
+    }catch(error){
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
-    setIsClient(true)
+    setIsClient(true)    
   }, [])
+
+  useEffect(() => {
+    checkUser();
+  }, [address, isConnected])
 
 
   async function connectWallet() {
@@ -25,6 +45,16 @@ export function Nav() {
       console.log('error:', err)
       setOpen(false)
     }
+  }
+
+  async function addUser() {
+    try{
+      const withSigner = contractObj();
+      await withSigner.addUser();
+      console.log("User has been added succesfully")  
+    }catch(error){
+      console.log(error);
+    }  
   }
 
   return (
@@ -37,7 +67,7 @@ export function Nav() {
           </h1>
         </Link>
         {
-         isClient && isConnected && (
+         isClient && isConnected && isRegistered && (
             <Link href='/profile'>
               <p className='ml-4 text-muted-foreground'>Rewards</p>
             </Link>
@@ -67,6 +97,14 @@ export function Nav() {
             <Button variant='outline' className='mr-3' onClick={connectWallet}>
               <LogIn className='mr-2' />
               Connect Wallet
+            </Button>
+          )
+        }
+        {
+          isClient && isConnected && !isRegistered && (
+            <Button variant='outline' className='mr-3' onClick={addUser}>
+              <LogIn className='mr-2' />
+              Register with AdMe
             </Button>
           )
         }
