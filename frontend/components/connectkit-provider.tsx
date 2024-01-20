@@ -6,7 +6,7 @@ import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 const config = createConfig(
   getDefaultConfig({
     // Required API Keys
-    alchemyId: process.env.INFURA_ID, // or infuraId
+    alchemyId: process.env.NEXT_PUBLIC_INFURA_ID, // or infuraId
     walletConnectProjectId: process.env.NEXT_PUBLIC_WC_ID || '',
 
     // Required

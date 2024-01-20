@@ -1,9 +1,9 @@
 import { ethers } from "ethers";
 const Web3 = require("web3");
 const { Utils } = require("alchemy-sdk");
-require('dotenv').config({ path: "../.env" });
+require('dotenv').config({ path: "../.env.local" });
 
-const PrivateKey = process.env.KEY;
+const PrivateKey = process.env.NEXT_PUBLIC_KEY;
 
 const wallet = PrivateKey ? new ethers.Wallet(PrivateKey) : undefined;
 
@@ -19,12 +19,14 @@ function getMessageHash(attention, nonce, adId, userId) {
 
 
 export default function signMessage(attention, nonce, adId, userId) {
+  console.log(PrivateKey)
     const trxn_hash = Utils.arrayify(
         getMessageHash(attention, nonce, adId, userId)
       );
       let signat;
     if (wallet) {
       signat = wallet.signMessage(trxn_hash);
+      console.log(signat);
       // Rest of the code...
     }
     return signat;

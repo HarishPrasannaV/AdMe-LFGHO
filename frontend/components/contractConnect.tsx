@@ -10,7 +10,7 @@ export const contractObj = () => {
     const signer = provider.getSigner()
 
     const contract = new Contract(
-        "0xF8d27EB83bF5fE9660E893654aD566C025cC88C5",
+        process.env.NEXT_PUBLIC_CONTRACT_ADDR || "",
         contractAbi,
         signer
     );
