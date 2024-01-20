@@ -79,6 +79,8 @@ export default function Ad({ ad }) {
 
         const userNonce = await withSigner.adUserInteraction(adId, userId);
         setUserNonce(parseInt(userNonce._hex, 16)); // Setting user nonce
+
+        console.log(userId, userNonce, address)
       } catch (error) {
         window.alert(error);
       }
@@ -109,9 +111,11 @@ export default function Ad({ ad }) {
               updateAttention(attention);
               console.log("Attention:", attention);
               console.log(attention, userNonce, adId, userId);
+
               // THE MESSAGE SIGNING DOSENT WORK
-              // signMessage(attention, userNonce, adId, userId);
-              // console.log(signature);
+              signMessage(attention, userNonce, adId, userId).then((signature) => {
+                console.log(signature);
+              });
 
             }
             

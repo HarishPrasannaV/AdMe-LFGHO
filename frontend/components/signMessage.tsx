@@ -1,11 +1,11 @@
-const { ethers } = require("hardhat");
+import { ethers } from "ethers";
 const Web3 = require("web3");
 const { Utils } = require("alchemy-sdk");
 require('dotenv').config({ path: "../.env" });
 
 const PrivateKey = process.env.KEY;
 
-const wallet = new ethers.Wallet(PrivateKey);
+const wallet = PrivateKey ? new ethers.Wallet(PrivateKey) : undefined;
 
 function getMessageHash(attention, nonce, adId, userId) {
   const packedData = Web3.eth.abi.encodeParameters(
@@ -22,8 +22,11 @@ export default function signMessage(attention, nonce, adId, userId) {
     const trxn_hash = Utils.arrayify(
         getMessageHash(attention, nonce, adId, userId)
       );
-
-    const signat = wallet.signMessage(trxn_hash);
+      let signat;
+    if (wallet) {
+      signat = wallet.signMessage(trxn_hash);
+      // Rest of the code...
+    }
     return signat;
 }
 
