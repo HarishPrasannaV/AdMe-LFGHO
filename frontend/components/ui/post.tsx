@@ -8,6 +8,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 
 export default function Post({ post }) {
@@ -19,8 +20,14 @@ export default function Post({ post }) {
           >
             <Card>
               <CardHeader>
-                <CardTitle>{post.name}</CardTitle>
-                <CardDescription>
+                <div className="flex flex-row">
+                  <Avatar>
+                    <AvatarImage src={post.imageUrl} />
+                    <AvatarFallback>{post.name.slice(0, 2)}</AvatarFallback>
+                  </Avatar>
+                  <CardTitle className="ml-4 mt-2">{post.name}</CardTitle>
+                </div>
+                <CardDescription className="mt-4">
                     <p className="text-left">{post.content}</p>
                 </CardDescription>
               </CardHeader>

@@ -18,7 +18,7 @@ const config = createConfig(
 export const ConnectkitProvider = ({ children }) => {
   return (
     <WagmiConfig config={config}>
-      <ConnectKitProvider>
+      <ConnectKitProvider theme="midnight" mode="auto">
         {children}
       </ConnectKitProvider>
     </WagmiConfig>

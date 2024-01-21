@@ -136,14 +136,14 @@ export default function Ad({ ad }) {
                         data-ad-id={ad.AD_ID}
             ref={ref}
           >
-            <Card>
+            <Card className="border-2 border-green-600">
               <CardHeader>
                 <CardTitle>{ad.companyName}</CardTitle>
                 <CardDescription>Watch ad to get rewards</CardDescription>
               </CardHeader>
               <CardContent>
                 <Image 
-                  src="https://images.unsplash.com/photo-1682687221006-b7fd60cf9dd0?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8"
+                  src={ad.URL}
                   width={400}
                   height={400}
                   alt="image"

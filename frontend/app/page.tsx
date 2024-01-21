@@ -20,48 +20,18 @@ export default function joinAdMe() {
     }  
   }
 
-  // async function checkUser() {
-  //   try{
-  //     const withSigner = contractObj();
-  //     const user = await withSigner.registerdUserList(address);
-  //     const userId = parseInt(user.userId._hex, 16);
-  //     console.log(userId);
-  //     if(userId !== 0){
-  //       setIsRegistered(true);
-  //     }
-  //   }catch(error){
-  //     window.alert(error);
-  //   }
-  // }
-
   useEffect(() => {
     // checkUser();
   }, [address])
 
 
   return (
-<>
-  {/* {isConnected && !isRegistered && (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100vh" }}>
-    <h1 style={{ fontSize: "2em", fontWeight: "bold", color: "green" }}>Become a registered user</h1>
-    <Button
-      type="button"
-      onClick={addUser}
-      style={{
-        fontSize: "1.5em",
-        backgroundColor: "lightgreen",
-        padding: "15px 30px",
-        borderRadius: "5px",
-        color: "white",
-        cursor: "pointer",
-        marginTop: "20px", 
-      }}
-    >
-      Click to join us !
-    </Button>
-  </div>
-  )} */}
-</>
+    <>
+      <div className="text-center m-32">
+        <h1 className="text-8xl"><span className="font-bold text-green-600">Ad</span>Me</h1>
+        <h1 className="mt-8 text-xl">Join us today and earn <span className="font-bold text-green-600">rewards</span> for your attention!</h1>
+      </div>
+    </>
 
   );
 }
