@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useAccount } from "wagmi";
 
 
-export default function joinAdMe() {
+export default function JoinAdMe() {
   const { address, isConnected } = useAccount()
   const [isRegistered, setIsRegistered] = useState(false)
 
