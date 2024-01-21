@@ -80,7 +80,7 @@ export function Nav() {
       <div className='flex flex-1 flex-row'>
         <Link href='/'>
           <h1 className='text-gray'>
-            <span className='font-bold'>Ad</span>
+            <span className='font-bold text-green-600'>Ad</span>
             Me
           </h1>
         </Link>
