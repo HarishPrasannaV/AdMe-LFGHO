@@ -29,6 +29,16 @@
 
 ### Frontend:
 - We have used Next. js,shadcn/ui and tailwind css for developing the frontend.
+
+## How to run locally
+
+1. clone the repo.
+2.  run ``` npm install``` where you cloned.
+3.  run ``` npm install``` in the frontend dirctory.
+4.  create a .env file in the frontend directory and add the contract address and EDCDSA Private key.
+5.  run ``` npm i json-server -g ``` to run a JSON server and simulate retrieving user posts.
+6.  run ``` json-server --watch --port 4000 users-posts.json ``` in the frontend directory
+7.  run ``` npm run dev ``` in the frontend dircetory
  
 
 
