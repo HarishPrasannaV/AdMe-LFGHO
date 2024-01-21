@@ -1,4 +1,8 @@
-# AdMe
+# AdMe 
+
+<img width="1045" alt="Screenshot 2024-01-21 at 2 27 35 PM" src="https://github.com/HarishPrasannaV/AdMe-LFGHO/assets/45291139/2d28ab8d-02b5-49ff-b48b-6c2fc2f37080">
+
+                                                                
 **AdMe is a social media app that rewards users through GHO tokens for paying attention and engaging with advertisements.**
 
 ## Project Description
