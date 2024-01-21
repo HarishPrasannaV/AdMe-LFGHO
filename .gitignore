@@ -51,6 +51,3 @@ frontend/.example.env.local
 # vercel
 frontend/.vercel
 
-# typescript
-frontend/*.tsbuildinfo
-frontend/next-env.d.ts
