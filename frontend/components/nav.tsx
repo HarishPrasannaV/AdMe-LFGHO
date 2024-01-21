@@ -42,7 +42,7 @@ export function Nav() {
       const userData = await withSigner.registerdUserList(address);
       setUserData(userData);
     } catch (error) {
-      window.alert(error);
+      console.log(error);
     }
   }
 

@@ -99,7 +99,7 @@ export default function Publications({ params }) {
       await withSigner.addUser();
       console.log("User has been added succesfully")  
     }catch(error){
-      window.alert(error);
+      console.log(error);
     }  
   }
 

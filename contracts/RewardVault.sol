@@ -187,11 +187,19 @@ contract RewardVault is Ownable {
         uint256 num
     ) external view returns (Advert[] memory) {
         require(start + num <= adList.length);
-
+        uint256 i = 0;
+        uint256 k = 0;
         Advert[] memory ret = new Advert[](num);
 
-        for (uint256 i = 0; i < num; i++) {
-            ret[i] = adList[i + start];
+        while (i < num) {
+            if(adList[k + start].displayStatus) {
+                ret[i] = adList[k + start];
+                i++;
+                k++;
+            }
+            else {
+                k++;
+            }
         }
 
         return ret;

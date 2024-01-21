@@ -4,7 +4,8 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { contractObj } from "@/components/contractConnect";
 import { Button } from "@/components/ui/button";
-import { ethers, BigNumber } from "ethers";
+import { BigNumber } from "ethers";
+import { useAccount } from "wagmi";
 
 interface UserData {
   0: BigNumber; 
@@ -14,15 +15,11 @@ interface UserData {
 
 export default function Rewards() {
   const [userData, setUserData] = useState<UserData>([BigNumber.from(0), BigNumber.from(0), ""]);
-  const [address, setAddress] = useState("");
+  const { address } = useAccount()
   const router = useRouter();
 
   async function updateDetails() {
     try {
-      const provider = new ethers.providers.Web3Provider((window as any).ethereum, "any");
-      const signer = provider.getSigner();
-      const address = await signer.getAddress();
-      setAddress(address);
       const withSigner = contractObj();
       const userData = await withSigner.registerdUserList(address);
       setUserData(userData);

@@ -1,4 +1,4 @@
-import { Suspense, useState, useEffect, useRef } from "react"
+import { Suspense } from "react"
 import Image from "next/image";
 import {
     Card,

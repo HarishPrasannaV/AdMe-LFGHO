@@ -1,9 +1,15 @@
 "use client"
 
-import { Contract, providers, Wallet } from "ethers"
+import { Contract, providers } from "ethers"
 import { abi as contractAbi } from "@/components/abi"
 
-const provider = new providers.Web3Provider((window as any).ethereum);
+declare global {
+    interface Window {
+      ethereum: any
+    }
+}
+
+const provider = new providers.Web3Provider(window.ethereum);
 
 export const contractObj = () => {
     // const signer = new Wallet(address, provider)

@@ -1,7 +1,8 @@
 'use client';
-import { Suspense, useState, useEffect, useRef } from "react"
+import { Suspense, useState, useEffect, useRef, use } from "react"
 import Image from "next/image";
 import { useInView } from "react-intersection-observer";
+import { useAccount } from "wagmi";
 import {
         Card,
         CardContent,
@@ -41,9 +42,9 @@ export default function Ad({ ad }) {
     const endTime = useRef(0);
     const attention = useRef(0);
     const [userData, setUserData] = useState<UserData>([BigNumber.from(0), BigNumber.from(0), ""]);
-    const [address, setAddress] = useState("");
     const [userId, setUserId] = useState(0);
-    const [userNonce, setUserNonce] = useState(0);    
+    const [userNonce, setUserNonce] = useState(0);   
+    const { address } = useAccount() 
 
     const changeCount = useRef(0);
 
@@ -67,10 +68,6 @@ export default function Ad({ ad }) {
 
     async function updateDetails() {
       try {
-        const provider = new ethers.providers.Web3Provider((window as any).ethereum, "any");
-        const signer = provider.getSigner();
-        const address = await signer.getAddress();
-        setAddress(address);
         const withSigner = contractObj();
         const userData = await withSigner.registerdUserList(address);
         
@@ -83,7 +80,7 @@ export default function Ad({ ad }) {
         setUserNonce(parseInt(userNoncee._hex, 16)); // Setting user nonce
 
       } catch (error) {
-        window.alert(error);
+        console.log(error);
       }
     }
 

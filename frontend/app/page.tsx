@@ -1,29 +1,8 @@
 'use client'
 
-import React, { useState, useEffect } from "react";
-import { contractObj } from "@/components/contractConnect";
-import { Button } from "@/components/ui/button";
-import { useAccount } from "wagmi";
-
+import React from "react";
 
 export default function JoinAdMe() {
-  const { address, isConnected } = useAccount()
-  const [isRegistered, setIsRegistered] = useState(false)
-
-  async function addUser() {
-    try{
-      const withSigner = contractObj();
-      await withSigner.addUser();
-      console.log("User has been added succesfully")  
-    }catch(error){
-      window.alert(error);
-    }  
-  }
-
-  useEffect(() => {
-    // checkUser();
-  }, [address])
-
 
   return (
     <>
