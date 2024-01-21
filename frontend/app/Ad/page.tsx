@@ -19,6 +19,9 @@ import { Input } from "@/components/ui/input"
 import { Toaster } from "@/components/ui/sonner"
 import { contractObj } from "@/components/contractConnect"
 
+const ghoFactor = BigInt(10 ** 18);
+
+
 const formSchema = z.object({
     companyName: z.string().min(2, {
     message: "Username must be at least 2 characters.",
@@ -43,7 +46,7 @@ export default function ProfileForm() {
      
       async function onSubmit(values: z.infer<typeof formSchema>) {
         const withSigner = contractObj()
-        const tx = await withSigner.addAdvert(BigInt(values.deposit), values.companyName, values.rewardPerUser, values.imageUrl);
+        const tx = await withSigner.addAdvert(BigInt(values.deposit) * ghoFactor, values.companyName, values.rewardPerUser, values.imageUrl);
         await tx.wait()
         console.log(tx)
         if(tx) {

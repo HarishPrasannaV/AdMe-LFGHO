@@ -45,6 +45,7 @@ contract RewardVault is Ownable {
     mapping(uint256 => mapping(uint256 => uint256)) public adUserInteraction;
 
     Advert[] private adList; // array to keep track of all the adverts
+    uint256 private immutable ghoFactor = 10 ** 18;
 
     constructor() Ownable(msg.sender) {
         // all Ids start at 1 so that we can check wether a user is registerd
@@ -154,7 +155,7 @@ contract RewardVault is Ownable {
         uint _rewards;
         // The transaction myst be approved befor we can do this
         require(GHO.transferFrom(msg.sender, address(this), _deposit));
-        _rewards = conversionFactor * _deposit;
+        _rewards = (conversionFactor * _deposit) / ghoFactor;
         Advert memory ad = Advert(
             adCounter,
             msg.sender,
@@ -172,18 +173,24 @@ contract RewardVault is Ownable {
     }
 
     function getRandomNumber(uint256 range) public view returns (uint256) {
-        uint256 randomSeed = uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty, msg.sender)));
+        uint256 randomSeed = uint256(
+            keccak256(
+                abi.encodePacked(block.timestamp, block.difficulty, msg.sender)
+            )
+        );
         return randomSeed % range;
     }
 
     // returns Ads
-    function returnAds(uint256 start, uint256 num) external view returns (Advert[] memory) {
+    function returnAds(
+        uint256 start,
+        uint256 num
+    ) external view returns (Advert[] memory) {
         require(start + num <= adList.length);
 
         Advert[] memory ret = new Advert[](num);
 
-        for (uint256 i = 0; i < num; i++) 
-        {
+        for (uint256 i = 0; i < num; i++) {
             ret[i] = adList[i + start];
         }
 
